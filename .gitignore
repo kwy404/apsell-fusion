@@ -14,4 +14,3 @@ store/tokens.json
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-/src/generated/prisma

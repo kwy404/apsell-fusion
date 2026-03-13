@@ -35,9 +35,9 @@ cp .env.example .env
 Preenche:
 
 - `RABBITMQ_URL` – tipo `amqp://admin:docker@localhost:5672`
-- `DATABASE_URL` – tipo `postgresql://postgres:docker@localhost:15455/appsell`
+- `DATABASE_URL` – tipo `postgresql://postgres:docker@localhost:15255/appsell`
 
-Opcional: `PORT` (padrão 5455), `LOG_LEVEL` (padrão info), `NODE_ENV`.
+Opcional: `PORT` (padrão 5255), `LOG_LEVEL` (padrão info), `NODE_ENV`.
 
 3. **Sobe os dependentes**
 

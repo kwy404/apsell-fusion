@@ -47,7 +47,7 @@ resource "docker_container" "database" {
 
   ports {
     internal = 5432
-    external = 15455
+    external = 15255
   }
 }
 
@@ -63,12 +63,12 @@ resource "docker_container" "service" {
   }
 
   ports {
-    internal = 5455
-    external = 5455
+    internal = 5255
+    external = 5255
   }
 
   env = [
-    "PORT=5455",
+    "PORT=5255",
     "DATABASE_URL=postgresql://postgres:docker@appsell-database:5432/appsell",
     "RABBITMQ_URL=amqp://guest:guest@broker:5672/",
   ]

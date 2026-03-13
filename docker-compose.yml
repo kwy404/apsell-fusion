@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
     ports:
-      - 15455:5432
+      - 15255:5432
     volumes:
       - database:/var/lib/postgresql/data
 
