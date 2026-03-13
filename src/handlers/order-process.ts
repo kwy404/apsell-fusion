@@ -86,7 +86,7 @@ function buildAppSellPayload(order: OrderEvent, appSellEvent: string) {
       phone: metadata.customer_phone as string ?? '',
       doc: metadata.customer_doc as string ?? '',
     },
-    products: (order.items ?? []).map((item) => ({
+    products: (order.items ?? []).map((item: any) => ({
       id: item.price_id,
       name: item.price_id,
       price_in_cents: item.amount,
