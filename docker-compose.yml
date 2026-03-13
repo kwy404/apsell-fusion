@@ -1,0 +1,36 @@
+services:
+  database:
+    image: postgres:18.0-alpine
+    container_name: appsell-database
+    environment:
+      POSTGRES_DB: appsell
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+    ports:
+      - 15455:5432
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:4.1.4-management-alpine
+    container_name: appsell-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: docker
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  database:
+    driver: local
+  rabbitmq:
+    driver: local

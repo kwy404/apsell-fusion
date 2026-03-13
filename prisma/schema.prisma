@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Store {
+  id        String   @id @default(uuid()) @db.Uuid
+  storeId   String   @unique @map("store_id") @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  credentials AppSellCredentials?
+  eventLogs   EventLog[]
+
+  @@map("stores")
+}
+
+model AppSellCredentials {
+  id        String   @id @default(uuid()) @db.Uuid
+  storeId   String   @unique @map("store_id") @db.VarChar(255)
+  apiToken  String   @map("api_token") @db.Text
+  endpoint  String   @db.VarChar(500)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  store Store @relation(fields: [storeId], references: [storeId], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([apiToken], map: "idx_appsell_credentials_token")
+  @@map("appsell_credentials")
+}
+
+model EventLog {
+  id           String   @id @default(uuid()) @db.Uuid
+  storeId      String?  @map("store_id") @db.VarChar(255)
+  eventType    String   @map("event_type") @db.VarChar(100)
+  payload      Json?
+  status       String   @db.VarChar(50)
+  errorMessage String?  @map("error_message") @db.Text
+  contactId    String?  @map("contact_id") @db.VarChar(100)
+  contactEmail String?  @map("contact_email") @db.VarChar(255)
+  processedAt  DateTime @default(now()) @map("processed_at")
+
+  store Store? @relation(fields: [storeId], references: [storeId], onUpdate: Cascade, onDelete: SetNull)
+
+  @@index([storeId], map: "idx_event_logs_store_id")
+  @@index([processedAt], map: "idx_event_logs_processed_at")
+  @@index([eventType], map: "idx_event_logs_event_type")
+  @@index([status], map: "idx_event_logs_status")
+  @@map("event_logs")
+}
